@@ -16,7 +16,7 @@ export function getDbPool(): Pool {
             },
         });
 
-        pool.on("error", (err, client) => {
+        pool.on("error", (err) => {
             console.error("Unexpected error on idle client in pool", err);
             // You might want to re-initialize the pool or handle this more gracefully
         });
@@ -106,4 +106,13 @@ export async function getOrCreateAppUser(
     } finally {
         client.release();
     }
+}
+
+export interface DatasetMetadataFromDB {
+    id: number;
+    dataset_table_name: string;
+    display_name: string | null;
+    description: string | null;
+    created_at: Date; // Note: This will be a string after JSON serialization
+    updated_at: Date; // Note: This will be a string after JSON serialization
 }

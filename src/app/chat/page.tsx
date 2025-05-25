@@ -10,10 +10,19 @@ interface Message {
     sender: "user" | "ai";
 }
 
+interface FetchedDatasetMetadata {
+    id: number;
+    dataset_table_name: string;
+    display_name: string | null;
+    description: string | null;
+    created_at: string; // Dates are strings over JSON
+    updated_at: string;
+}
+
 interface DatasetMetadataForChat {
     // Simplified for chat page dropdown
     dataset_table_name: string;
-    display_name: string | null;
+    display_name: string;
 }
 
 export default function ChatPage() {
@@ -28,24 +37,27 @@ export default function ChatPage() {
     const messagesEndRef = useRef<null | HTMLDivElement>(null);
 
     const scrollToBottom = () => {
-        /* ... as before ... */
+        useEffect(scrollToBottom, [messages]);
     };
     useEffect(scrollToBottom, [messages]);
 
     const fetchAvailableDatasets = async () => {
         setIsLoadingDatasets(true);
         try {
-            const response = await fetch("/api/datasets"); // Assuming this endpoint exists and works
+            const response = await fetch("/api/datasets");
             if (!response.ok) {
                 console.error("Failed to fetch datasets for chat page");
                 setAvailableDatasets([]);
                 return;
             }
-            const data: any[] = await response.json(); // Use any[] if backend returns more fields
+            // Use the more specific type here
+            const data: FetchedDatasetMetadata[] = await response.json();
+
             const formattedDatasets: DatasetMetadataForChat[] = data.map(
-                (ds) => ({
+                (ds: FetchedDatasetMetadata) => ({
+                    // Type the ds parameter
                     dataset_table_name: ds.dataset_table_name,
-                    display_name: ds.display_name || ds.dataset_table_name,
+                    display_name: ds.display_name || ds.dataset_table_name, // Fallback if display_name is null
                 })
             );
             setAvailableDatasets(formattedDatasets);
@@ -96,11 +108,9 @@ export default function ChatPage() {
             });
 
             if (!response.ok) {
-                const errorResult = await response
-                    .json()
-                    .catch(() => ({
-                        answer: "Sorry, something went wrong with the API.",
-                    }));
+                const errorResult = await response.json().catch(() => ({
+                    answer: "Sorry, something went wrong with the API.",
+                }));
                 throw new Error(
                     errorResult.error ||
                         errorResult.details ||
