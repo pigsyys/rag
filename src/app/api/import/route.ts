@@ -3,7 +3,6 @@ import { generateEmbeddingWithTitan } from "../lib/awsBedrock"; // USE THIS IMPO
 import { MAX_EMBEDDING_CHUNK_CHAR_LENGTH, chunkText } from "../lib/textUtils"; // Ensure this path is correct
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { getDbPool, getOrCreateAppUser, AppUser } from "../lib/database";
-import { getOpenAIChatCompletion } from "../lib/llm";
 
 // --- DATABASE SETUP AND HELPERS ---
 async function registerDatasetInMetadata(

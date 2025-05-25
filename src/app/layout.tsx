@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/navbar"; // Ensure correct path and casing
-import { ClerkProvider, SignedIn, SignedOut } from "@clerk/nextjs"; // Import auth
+import { ClerkProvider } from "@clerk/nextjs"; // Import auth
 import { auth } from "@clerk/nextjs/server";
 import { getUserAppRole } from "./api/lib/getUserAppRole"; // Import your new helper
 

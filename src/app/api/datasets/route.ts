@@ -1,9 +1,7 @@
 // src/app/api/datasets/route.ts
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { auth, currentUser } from "@clerk/nextjs/server";
-import { generateEmbeddingWithTitan } from "../lib/awsBedrock";
 import { getDbPool, getOrCreateAppUser, AppUser } from "../lib/database";
-import { getOpenAIChatCompletion } from "../lib/llm";
 
 export interface DatasetMetadata {
     id: number;
