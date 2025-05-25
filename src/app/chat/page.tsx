@@ -36,11 +36,6 @@ export default function ChatPage() {
     const [selectedDataset, setSelectedDataset] = useState<string>("");
     const messagesEndRef = useRef<null | HTMLDivElement>(null);
 
-    const scrollToBottom = () => {
-        useEffect(scrollToBottom, [messages]);
-    };
-    useEffect(scrollToBottom, [messages]);
-
     const fetchAvailableDatasets = async () => {
         setIsLoadingDatasets(true);
         try {
