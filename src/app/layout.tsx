@@ -12,6 +12,7 @@ export const metadata: Metadata = {
     title: "My RAG Application",
     description: "Chatbot with custom data",
 };
+console.log("a");
 
 export default async function RootLayout({
     // Make RootLayout async
